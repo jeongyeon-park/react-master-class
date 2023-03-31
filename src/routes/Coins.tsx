@@ -4,6 +4,8 @@ import {Link} from "react-router-dom"
 import styled from "styled-components";
 import { fetchCoins } from "./api";
 import { Helmet } from "react-helmet";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div `
   padding: 10px 10px;
@@ -21,7 +23,7 @@ const CoinsList = styled.ul ``;
 
 const Coin = styled.li `
   background-color: white ;
-  color: ${ (props) => props.theme.bgColor};
+  color: ${ (props) => props.theme.textColor};
   border-radius: 15px ;
   margin-bottom: 10px ;
 
@@ -64,16 +66,22 @@ interface ICoin {
     type: string
 }
 
+interface ICoinsProps {
+  toggleDark : () => void;
+}
+
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  const setterFn = useSetRecoilState(isDarkAtom);
 
   return (
       <Container>
         <Header>
         <Helmet>
-          <title>코인</title>
+          <Title>코인</Title>
         </Helmet>
             <Title>코인</Title>
+            <button onClick={()=>setterFn(current => !current)}>Toggle Mode</button>
         </Header>
         {
           isLoading ? (

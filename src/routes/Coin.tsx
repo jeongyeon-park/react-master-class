@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useLocation, useParams, Routes, Route, Link , useMatch} from "react-router-dom";
+import { useLocation, useParams, Routes, Route, Link , useMatch, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoins, fetchCoinTickers } from "./api";
 import { Helmet } from "react-helmet";
 import Chart from "./Chart";
 import Price from "./Price";
+import { FaArrowLeft } from "react-icons/fa";
+
 
 const Title = styled.h1`
   font-size: 48px;
@@ -65,6 +67,20 @@ const Tab = styled.span<{isActive: boolean}>`
   border-radius: 10px;
   color: ${props => props.isActive ? props.theme.accentColor : props.theme.textColor}
 `;
+
+const BtnWrap = styled.div`
+  display: flex;
+  margin-top: 20px;
+`
+const Btn = styled.button`
+  padding: 7px 10px;
+  border-radius: 10px;
+  &:hover{
+    cursor: pointer;
+    color: ${(props)=>props.theme.accentColor}
+  }
+`;
+
 interface RouteParams {
   coinId: string;
 }
@@ -130,6 +146,7 @@ interface PriceData {
 function Coin() {
   const { coinId } = useParams() as {coinId:string};
   const { state } = useLocation() ;
+  const navigate = useNavigate();
 
   const {isLoading : infoLoading ,data: infoData } = useQuery(
     ["info", coinId], 
@@ -154,6 +171,11 @@ function Coin() {
         {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
       </title>
     </Helmet>
+    <BtnWrap>
+            <Btn onClick={()=> navigate("/")}>
+              <FaArrowLeft />
+            </Btn>
+          </BtnWrap>
       <Header>
       <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -163,6 +185,7 @@ function Coin() {
         <Loader>Loading...</Loader>
       ) : (
         <>
+          
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
