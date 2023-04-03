@@ -74,7 +74,7 @@ function ToDoList(){
             noNico: (value)=> value.includes("nico") ? "no nicos allowed": true,
             noNick: (value)=> value.includes("nick") ? "no nicos allowed" : true,
           }
-        })}
+        })} 
           placeholder="First Name"/>
         <span>{errors.firstName?.message}</span>
 

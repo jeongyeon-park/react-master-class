@@ -6,7 +6,7 @@ import {RecoilRoot} from "recoil";
 import App from './App';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme } from './theme';
-
+ 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
